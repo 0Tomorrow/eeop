@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Input, Cascader, DatePicker, Select } from 'antd';
-import Option from 'antd/lib/select';
-import { sendType, status } from '../../enums/enum.js';
+import { Button, Input, DatePicker, Select } from 'antd';
+import { sendType, status, notifyType } from '../../enums/enum.js';
+import OptionSelect from '../OptionSelect.js';
 
 const InputGroup = Input.Group;
 const { RangePicker } = DatePicker;
@@ -12,19 +12,19 @@ export default class Search extends React.Component {
   };
   onchange = (e) => {
     const stateBody = this.state.body;
-    stateBody.content = e.target.value;
+    stateBody.content = e;
   };
   onNotifyType = (e) => {
     const stateBody = this.state.body;
-    stateBody.notifyType = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
+    stateBody.notifyType = e;
   };
   onSendType = (e) => {
     const stateBody = this.state.body;
-    stateBody.sendType = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
+    stateBody.sendType = e;
   };
   onStatus = (e) => {
     const stateBody = this.state.body;
-    stateBody.status = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
+    stateBody.status = e;
   };
   onTimes = (e) => {
     const startYear = e[0].year();
@@ -40,41 +40,51 @@ export default class Search extends React.Component {
     stateBody.endTime = endTime.toString();
   };
   onSearch = () => {
-    console.log(this.props);
     this.props.onSearch(this.state.body);
-  }
+  };
   render() {
     return (
       <div style={{ display: 'inline-block' }}>
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
-          <Input addonBefore="通知内容" onChange={this.onchange} defaultValue="" />
-        </div>
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
           <InputGroup compact>
             <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知对象</span>
-            <Select style={{ width: '140px' }} defaultValue="" >
-              <Option value="10">10</Option>
-              <Option value="25">25</Option>
-              <Option value="50">50</Option>
-            </Select>
+            <Select
+              mode="tags"
+              onChange={this.onchange}
+              tokenSeparators={[' ']}
+              style={{ width: '220px' }}
+              placeholder="请输入关键字，用空格分开"
+            />
           </InputGroup>
         </div>
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
+          <InputGroup compact>
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知对象</span>
+            <OptionSelect option={notifyType} onChange={e => this.onNotifyType(e)} />
+          </InputGroup>
+        </div>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
           <InputGroup compact>
             <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知类型</span>
-            <Cascader onChange={this.onSendType} options={sendType} placeholder="Select" style={{ width: '140px' }} />
+            <OptionSelect option={sendType} onChange={e => this.onSendType(e)} />
+          </InputGroup>
+        </div>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
+          <InputGroup compact>
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >发送状态</span>
+            <OptionSelect option={status} onChange={e => this.onStatus(e)} />
+          </InputGroup>
+        </div>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
+          <InputGroup compact>
+            <RangePicker onChange={this.onTimes} />
           </InputGroup>
         </div>
         <div style={{ marginBottom: 16, display: 'inline-block' }}>
           <InputGroup compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >发送状态</span>
-            <Cascader onChange={this.onStatus} options={status} placeholder="Select" style={{ width: '140px' }} />
+            <Button type="primary" icon="search" onClick={this.onSearch} style={{ backgroundColor: 'green', borderColor: 'green' }}>查询</Button>
           </InputGroup>
         </div>
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
-          <RangePicker onChange={this.onTimes} />
-        </div>
-        <Button type="primary" icon="search" onClick={this.onSearch} style={{ backgroundColor: 'green', borderColor: 'green' }}>查询</Button>
       </div>
     );
   }

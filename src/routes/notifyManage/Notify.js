@@ -41,8 +41,8 @@ class Notify extends React.Component {
     this.fetch();
   }
   onSearch = (props) => {
-    const state = { ...this.state };
-    state.body = props;
+    this.state.body = props;
+    console.log(this.state.body);
     this.fetch();
   }
 
@@ -55,7 +55,6 @@ class Notify extends React.Component {
   fetch = () => {
     this.setState({ loading: true });
     const page = this.state.pagination;
-    console.log(page);
     const stateBody = this.state.body;
     stateBody.limit = page.pageSize;
     stateBody.offset = page.current;
@@ -124,6 +123,7 @@ class Notify extends React.Component {
     }, {
       title: '操作',
       align: 'center',
+      width: '140px',
       render: (text, record) => (
         getOperation(record)
       ),
@@ -131,18 +131,21 @@ class Notify extends React.Component {
     const page = this.state.pagination;
     return (
       <div>
+        <div style={{ height: '20px' }} />
         <Search onSearch={props => this.onSearch(props)} />
         <Create style={{ float: 'right' }} />
         &nbsp;
         <Table
-          scroll={{ x: 1500 }}
+          scroll={{ x: 800 }}
           columns={columns}
           bordered
           dataSource={this.state.data}
           pagination={this.state.pagination}
           loading={this.state.loading}
-          footer={(currentPageData) => {
-            console.log(currentPageData);
+          footer={() => {
+            if (page.total === 0) {
+              return '';
+            }
             return (
               <div>显示第&nbsp;
                 <span>
@@ -152,7 +155,7 @@ class Notify extends React.Component {
                   { this.endPage() }
                 </span> 条记录，总共&nbsp;
                 <span>
-                  { this.state.pagination.total }
+                  { page.total }
                 </span> 条记录  每页显示
                 <Select style={{ width: '60px' }} onChange={this.changLimit} defaultValue="10">
                   <Option value="10">10</Option>

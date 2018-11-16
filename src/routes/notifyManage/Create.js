@@ -1,19 +1,27 @@
 import React from 'react';
-import { Modal, Button, Input, Cascader } from 'antd';
+import { Modal, Button, Input } from 'antd';
+import OptionSelect from '../OptionSelect.js';
+import { notifyType, sendType } from '../../enums/enum';
 
 const InputGroup = Input.Group;
 const { TextArea } = Input;
-const options = [{
-  value: '1',
-  label: '全体成员',
-}, {
-  value: '2',
-  label: '全体管理员',
-}];
 export class Create extends React.Component {
   state = {
+    body: {},
     loading: false,
     visible: false,
+  };
+
+  onNotifyType = (e) => {
+    const stateBody = this.state.body;
+    stateBody.notifyType = e;
+  };
+  onSendType = (e) => {
+    const stateBody = this.state.body;
+    stateBody.sendType = e;
+  };
+  handleCancel = () => {
+    this.setState({ visible: false });
   };
 
   showModal = () => {
@@ -27,10 +35,6 @@ export class Create extends React.Component {
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
-  };
-
-  handleCancel = () => {
-    this.setState({ visible: false });
   };
 
   render() {
@@ -52,28 +56,39 @@ export class Create extends React.Component {
           ]}
         >
           <InputGroup style={{ margin: '20px 0' }} compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知类型</span>
-            <Cascader onChange={this.onSendType} options={options} placeholder="Select" style={{ width: '393px' }} />
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知对象</span>
+            <OptionSelect option={notifyType} onChange={e => this.onNotifyType(e)} />
           </InputGroup>
           <InputGroup style={{ margin: '20px 0' }} compact>
             <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知类型</span>
-            <Cascader onChange={this.onSendType} options={options} placeholder="Select" style={{ width: '393px' }} />
+            <OptionSelect option={sendType} onChange={e => this.onSendType(e)} />
           </InputGroup>
           <div>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px', display: 'inline-block' }} >通知内容</span>
-            <TextArea placeholder="编辑通知内容" style={{ width: '393px' }} autosize={{ minRows: 1, maxRows: 6 }} />
+            <InputGroup style={{ margin: '20px 0' }} compact>
+              <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px', display: 'inline-block' }} >通知内容</span>
+              <TextArea placeholder="编辑通知内容" style={{ width: '393px' }} autosize={{ minRows: 3, maxRows: 6 }} />
+            </InputGroup>
           </div>
-          <InputGroup style={{ margin: '20px 0' }} compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >链接</span>
-            <Cascader onChange={this.onSendType} options={options} placeholder="Select" style={{ width: '393px' }} />
-          </InputGroup>
+          <div>
+            <InputGroup style={{ margin: '20px 0' }} compact>
+              <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >链接</span>
+              <Input style={{ width: '393px' }} onChange={this.onchange} defaultValue="" />
+            </InputGroup>
+          </div>
           <div style={{ margin: '20px 0' }}>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px', display: 'inline-block' }} >详细信息</span>
-            <TextArea placeholder="编辑通知内容" style={{ width: '393px' }} autosize={{ minRows: 1, maxRows: 6 }} />
+            <InputGroup style={{ margin: '20px 0' }} compact>
+              <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px', display: 'inline-block' }} >详细信息</span>
+              <TextArea placeholder="详细信息" style={{ width: '393px' }} autosize={{ minRows: 3, maxRows: 6 }} />
+            </InputGroup>
           </div>
-          <Button type="primary" >生成链接</Button>
-          <Input style={{ margin: '20px 0' }} addonBefore="预览" onChange={this.onchange} defaultValue="" />
-          <Button type="primary">发送</Button>
+          <Button type="primary" style={{ marginLeft: '79px' }} >生成链接</Button>
+          <div>
+            <InputGroup style={{ margin: '20px 0' }} compact>
+              <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >预览</span>
+              <Input onChange={this.onchange} defaultValue="" style={{ width: '393px' }} />
+            </InputGroup>
+          </div>
+          <Button type="primary" style={{ marginLeft: '79px' }} >发送</Button>
         </Modal>
       </div>
     );

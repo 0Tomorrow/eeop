@@ -91,9 +91,9 @@
       }
     }
     &.collapsed {
-      flex: 0 0 80px !important;
+      flex: 0 0 0 !important;
       max-width: 80px !important;
-      min-width: 80px !important;
+      min-width: 0 !important;
       width: 80px !important;
       :global {
         .ant-layout-sider-trigger {
@@ -162,11 +162,15 @@
   }
   .ant-layout-sider-children {
     width: 200px;
-    overflow-y: scroll;
+    overflow-y: hidden;
   }
   .ant-dropdown {
     .anticon {
       margin-right: 5px;
     }
+  }
+  .ant-layout-sider-zero-width-trigger {
+    z-index: 10;
+    opacity: 0.1;
   }
 }

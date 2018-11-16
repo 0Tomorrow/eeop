@@ -1,9 +1,7 @@
 import React from 'react';
-import { Button, Input, Cascader, DatePicker } from 'antd';
-import { notifyType, sendType, status } from '../../enums/enum.js';
+import { Button, Input } from 'antd';
 
 const InputGroup = Input.Group;
-const { RangePicker } = DatePicker;
 
 export default class Search extends React.Component {
   state = {
@@ -11,70 +9,49 @@ export default class Search extends React.Component {
   };
   onchange = (e) => {
     const stateBody = this.state.body;
-    stateBody.content = e.target.value;
+    stateBody.content = e;
   };
   onNotifyType = (e) => {
     const stateBody = this.state.body;
-    stateBody.notifyType = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
+    stateBody.notifyType = e;
   };
   onSendType = (e) => {
     const stateBody = this.state.body;
-    stateBody.sendType = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
+    stateBody.sendType = e;
   };
   onStatus = (e) => {
     const stateBody = this.state.body;
-    stateBody.status = (typeof (e[0]) === 'undefined' ? '' : e[0].toString());
-  };
-  onTimes = (e) => {
-    const startYear = e[0].year();
-    const startMonth = e[0].month();
-    const startDate = e[0].date();
-    const startTime = new Date(`${startYear}/${startMonth}/${startDate}`).getTime();
-    const endYear = e[0].year();
-    const endMonth = e[0].month();
-    const endDate = e[0].date();
-    const endTime = new Date(`${endYear}/${endMonth}/${endDate}`).getTime();
-    const stateBody = this.state.body;
-    stateBody.startTime = startTime.toString();
-    stateBody.endTime = endTime.toString();
+    stateBody.status = e;
   };
   onSearch = () => {
-    console.log(this.props);
     this.props.onSearch(this.state.body);
-  }
+  };
   render() {
     return (
       <div style={{ display: 'inline-block' }}>
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
-          <Input addonBefore="通知内容" onChange={this.onchange} defaultValue="" />
-        </div>
-        &nbsp;
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
           <InputGroup compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知对象</span>
-            <Cascader onChange={this.onNotifyType} options={notifyType} placeholder="Select" style={{ width: '140px' }} />
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >组织名称</span>
+            <Input style={{ width: '220px' }} />
           </InputGroup>
         </div>
-        &nbsp;
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
           <InputGroup compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >通知类型</span>
-            <Cascader onChange={this.onSendType} options={sendType} placeholder="Select" style={{ width: '140px' }} />
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >主管理员</span>
+            <Input style={{ width: '220px' }} />
           </InputGroup>
         </div>
-        &nbsp;
-        <div style={{ marginBottom: 16, display: 'inline-block' }}>
+        <div style={{ marginBottom: 16, marginRight: 10, display: 'inline-block' }}>
           <InputGroup compact>
-            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >发送状态</span>
-            <Cascader onChange={this.onStatus} options={status} placeholder="Select" style={{ width: '140px' }} />
+            <span className="ant-input-group-addon" style={{ padding: '8px 11px', width: '79px' }} >电话号码</span>
+            <Input style={{ width: '220px' }} />
           </InputGroup>
         </div>
-        &nbsp;
         <div style={{ marginBottom: 16, display: 'inline-block' }}>
-          <RangePicker onChange={this.onTimes} />
+          <InputGroup compact>
+            <Button type="primary" icon="search" onClick={this.onSearch} style={{ backgroundColor: 'green', borderColor: 'green' }}>查询</Button>
+          </InputGroup>
         </div>
-        &nbsp;
-        <Button type="primary" icon="search" onClick={this.onSearch} style={{ backgroundColor: 'green', borderColor: 'green' }}>查询</Button>
       </div>
     );
   }

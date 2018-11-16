@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { message, notification } from 'antd';
+import reqwest from 'reqwest';
 import Config from '../common/config';
 
 function checkStatus(response) {
@@ -57,4 +58,28 @@ export default function request(sUrl, options) {
       }
       return error;
     });
+}
+
+export function doFetch(url, method, body, page, finish) {
+  const param = body;
+  param.limit = page.pageSize;
+  param.offset = page.current;
+  reqwest({
+    url,
+    method,
+    data: JSON.stringify(body),
+    contentType: 'application/json',
+    type: 'json',
+  }).then((data) => {
+    console.log(data);
+    if (data.code === -1) {
+      message.error(data.msg);
+      return null;
+    }
+    if (data.code !== 0) {
+      message.error(data);
+      return null;
+    }
+    finish(data);
+  });
 }

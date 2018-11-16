@@ -23,7 +23,7 @@ export const getNavData = app => [
         name: '组织管理',
         icon: 'usergroup-add',
         path: 'orgManage',
-        component: dynamicWrapper(app, [], () => import('../routes/orgManage/Notify')),
+        component: dynamicWrapper(app, [], () => import('../routes/orgManage/Org')),
       },
       {
         name: '通知管理',

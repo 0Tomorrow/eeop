@@ -1,4 +1,7 @@
 export const notifyType = [{
+  value: '0',
+  label: '请选择',
+}, {
   value: '1',
   label: '全体成员',
 }, {
@@ -7,6 +10,9 @@ export const notifyType = [{
 }];
 
 export const sendType = [{
+  value: '0',
+  label: '请选择',
+}, {
   value: '1',
   label: '系统通知',
 }, {
@@ -15,6 +21,9 @@ export const sendType = [{
 }];
 
 export const status = [{
+  value: '0',
+  label: '请选择',
+}, {
   value: '1',
   label: '已发送',
 }, {

@@ -256,11 +256,8 @@ class BasicLayout extends React.PureComponent {
         </Header>
         <Layout>
           <Sider
-            collapsible
-            breakpoint="md"
-            className={collapsed ? `${styles['basic-sider']} ${styles.collapsed}` : styles['basic-sider']}
-            collapsed={collapsed}
-            onCollapse={this.onCollapse}
+            breakpoint="lg"
+            collapsedWidth="0"
           >
             <Menu
               theme="dark"
@@ -269,6 +266,7 @@ class BasicLayout extends React.PureComponent {
               onOpenChange={this.handleOpenChange}
               selectedKeys={this.getCurrentMenuSelectedKeys()}
               className={collapsed ? `${styles['basic-menu']} ${styles.collapsed}` : styles['basic-menu']}
+              style={{ marginTop: '50px', overflow: '-moz-scrollbars-none', 'overflow-x': 'hidden', 'overflow-y': 'hidden' }}
             >
               {this.getNavMenuItems(this.menus)}
             </Menu>
